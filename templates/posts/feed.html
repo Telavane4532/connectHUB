@@ -46,15 +46,20 @@
 
       <p class="post-content mb-3">{{ post.content }}</p>
 
-      <hr class="my-2"/>
-      <form method="POST" action="/like/{{ post.id }}/">
-        {% csrf_token %}
-        <button class="btn-like {% if user in post.likes.all %}liked{% endif %}">
-          <i class="bi bi-heart{% if user in post.likes.all %}-fill{% endif %} me-1"></i>
-          {{ post.total_likes }} Like{% if post.total_likes != 1 %}s{% endif %}
-        </button>
-      </form>
-    </div>
+     <hr class="my-2"/>
+      <div class="d-flex gap-2 align-items-center">
+        <form method="POST" action="/like/{{ post.id }}/">
+          {% csrf_token %}
+          <button class="btn-like {% if user in post.likes.all %}liked{% endif %}">
+            <i class="bi bi-heart{% if user in post.likes.all %}-fill{% endif %} me-1"></i>
+            {{ post.total_likes }} Like{% if post.total_likes != 1 %}s{% endif %}
+          </button>
+        </form>
+        <a href="/post/{{ post.id }}/" class="btn-like text-decoration-none">
+          <i class="bi bi-chat me-1"></i>
+          {{ post.comments.count }} Comment{% if post.comments.count != 1 %}s{% endif %}
+        </a>
+      </div>
     {% empty %}
     <div class="text-center text-muted py-5">
       <i class="bi bi-journal-x" style="font-size:3rem;"></i>

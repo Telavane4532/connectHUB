@@ -7,4 +7,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('profile/<str:username>/', views.profile_view, name='profile'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('follow/<str:username>/', views.follow_user, name='follow_user'),
+    path('search/', views.search_users, name='search'),
 ]

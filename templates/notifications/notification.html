@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card p-4">
+      <h5 class="fw-bold mb-4"><i class="bi bi-bell-fill me-2"></i>Notifications</h5>
+
+      {% for notif in notifs %}
+      <div class="d-flex align-items-center gap-3 p-3 mb-2 rounded-3
+           {% if not notif.is_read %}bg-light{% endif %}"
+           style="border:1px solid #eee;">
+        <div class="avatar" style="width:40px;height:40px;font-size:16px;">
+          {{ notif.sender.username|first|upper }}
+        </div>
+        <div class="flex-grow-1">
+          <strong>{{ notif.sender.username }}</strong>
+          {% if notif.notif_type == 'like' %}
+            <span class="text-muted"> liked your post ❤️</span>
+          {% elif notif.notif_type == 'comment' %}
+            <span class="text-muted"> commented on your post 💬</span>
+          {% elif notif.notif_type == 'follow' %}
+            <span class="text-muted"> started following you 👤</span>
+          {% endif %}
+          <div class="text-muted small">{{ notif.created_at|timesince }} ago</div>
+        </div>
+        {% if notif.post %}
+        <a href="/post/{{ notif.post.id }}/" class="btn btn-sm btn-outline-primary">
+          View
+        </a>
+        {% endif %}
+      </div>
+      {% empty %}
+      <div class="text-center text-muted py-5">
+        <i class="bi bi-bell-slash" style="font-size:3rem;"></i>
+        <h6 class="mt-3">No notifications yet</h6>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

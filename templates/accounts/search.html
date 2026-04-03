@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+
+    <!-- Search Bar -->
+    <div class="card p-4 mb-4">
+      <h5 class="fw-bold mb-3"><i class="bi bi-search me-2"></i>Search Users</h5>
+      <form method="GET" action="/accounts/search/">
+        <div class="d-flex gap-2">
+          <input type="text" name="q" value="{{ query }}"
+                 class="form-control" placeholder="Search by username..."/>
+          <button class="btn btn-primary px-4">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results -->
+    {% if query %}
+      <p class="text-muted mb-3">
+        {{ results.count }} result{% if results.count != 1 %}s{% endif %} for "<strong>{{ query }}</strong>"
+      </p>
+      {% for result_user in results %}
+      <div class="card p-3 mb-2">
+        <div class="d-flex align-items-center">
+          <div class="avatar me-3">{{ result_user.username|first|upper }}</div>
+          <div class="flex-grow-1">
+            <strong>{{ result_user.username }}</strong>
+            <div class="text-muted small">
+              {% with result_user.profile as p %}
+                {{ p.bio|default:"No bio yet." }}
+              {% endwith %}
+            </div>
+          </div>
+          <a href="/accounts/profile/{{ result_user.username }}/"
+             class="btn btn-outline-primary btn-sm px-3">
+            View Profile
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="text-center text-muted py-4">
+        <i class="bi bi-person-x" style="font-size:2rem;"></i>
+        <p class="mt-2">No users found for "{{ query }}"</p>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

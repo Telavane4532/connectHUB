@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+
+    <!-- Post Card -->
+    <div class="card post-card mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <a href="/accounts/profile/{{ post.user.username }}/" class="text-decoration-none">
+          <div class="avatar me-3">{{ post.user.username|first|upper }}</div>
+        </a>
+        <div>
+          <strong>{{ post.user.username }}</strong>
+          <div class="post-meta">{{ post.created_at|timesince }} ago</div>
+        </div>
+      </div>
+      <p class="post-content mb-3">{{ post.content }}</p>
+      <hr class="my-2"/>
+      <form method="POST" action="/like/{{ post.id }}/">
+        {% csrf_token %}
+        <button class="btn-like {% if user in post.likes.all %}liked{% endif %}">
+          <i class="bi bi-heart{% if user in post.likes.all %}-fill{% endif %} me-1"></i>
+          {{ post.total_likes }} Like{% if post.total_likes != 1 %}s{% endif %}
+        </button>
+      </form>
+    </div>
+
+    <!-- Add Comment -->
+    <div class="card p-3 mb-4">
+      <h6 class="fw-bold mb-3"><i class="bi bi-chat me-2"></i>Add a Comment</h6>
+      <form method="POST" action="/post/{{ post.id }}/comment/">
+        {% csrf_token %}
+        <div class="d-flex gap-2">
+          <div class="avatar" style="width:36px;height:36px;font-size:14px;">
+            {{ user.username|first|upper }}
+          </div>
+          <div class="flex-grow-1">
+            <input type="text" name="content" class="form-control mb-2"
+                   placeholder="Write a comment..." required/>
+            <button class="btn btn-primary btn-sm px-3">
+              <i class="bi bi-send me-1"></i> Comment
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Comments List -->
+    <h6 class="fw-bold mb-3">
+      <i class="bi bi-chat-dots me-2"></i>{{ comments.count }} Comment{% if comments.count != 1 %}s{% endif %}
+    </h6>
+    {% for comment in comments %}
+    <div class="card p-3 mb-2">
+      <div class="d-flex align-items-start gap-2">
+        <div class="avatar" style="width:36px;height:36px;font-size:14px;">
+          {{ comment.user.username|first|upper }}
+        </div>
+        <div class="flex-grow-1">
+          <strong>{{ comment.user.username }}</strong>
+          <span class="text-muted small ms-2">{{ comment.created_at|timesince }} ago</span>
+          <p class="mb-0 mt-1">{{ comment.content }}</p>
+        </div>
+        {% if comment.user == user %}
+        <form method="POST" action="/comment/delete/{{ comment.id }}/">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <div class="text-center text-muted py-3">
+      <i class="bi bi-chat-x" style="font-size:2rem;"></i>
+      <p class="mt-2">No comments yet. Be the first!</p>
+    </div>
+    {% endfor %}
+
+    <a href="/" class="btn btn-outline-primary mt-3">
+      <i class="bi bi-arrow-left me-1"></i> Back to Feed
+    </a>
+
+  </div>
+</div>
+{% endblock %}

@@ -44,10 +44,12 @@ def profile_view(request, username):
     profile_user = get_object_or_404(User, username=username)
     profile, _ = Profile.objects.get_or_create(user=profile_user)
     posts = Post.objects.filter(user=profile_user).order_by('-created_at')
+    is_following = profile.followers.filter(id=request.user.id).exists()
     return render(request, 'accounts/profile.html', {
         'profile_user': profile_user,
         'profile': profile,
         'posts': posts,
+        'is_following': is_following,
     })
 
 @login_required
@@ -62,3 +64,38 @@ def edit_profile(request):
         messages.success(request, 'Profile updated!')
         return redirect('profile', username=request.user.username)
     return render(request, 'accounts/edit_profile.html', {'profile': profile})
+
+@login_required
+def follow_user(request, username):
+    from notifications.models import Notification
+    target_user = get_object_or_404(User, username=username)
+    target_profile, _ = Profile.objects.get_or_create(user=target_user)
+    if request.user in target_profile.followers.all():
+        target_profile.followers.remove(request.user)
+        Notification.objects.filter(
+            sender=request.user,
+            recipient=target_user,
+            notif_type='follow'
+        ).delete()
+    else:
+        target_profile.followers.add(request.user)
+        if request.user != target_user:
+            Notification.objects.get_or_create(
+                sender=request.user,
+                recipient=target_user,
+                notif_type='follow'
+            )
+    return redirect('profile', username=username)
+
+@login_required
+def search_users(request):
+    query = request.GET.get('q', '')
+    results = []
+    if query:
+        results = User.objects.filter(
+            username__icontains=query
+        ).exclude(id=request.user.id)
+    return render(request, 'accounts/search.html', {
+        'results': results,
+        'query': query,
+    })
