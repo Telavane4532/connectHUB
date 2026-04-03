@@ -17,24 +17,24 @@ real-time notifications, and direct messaging.
 
 
 
-## ✨ Features
+##  Features
 
-- 🔐 **User Authentication** — Register, Login, Logout with
+-  **User Authentication** — Register, Login, Logout with
   Django's built-in auth system
-- 👤 **User Profiles** — Custom bio, profile picture,
+-  **User Profiles** — Custom bio, profile picture,
   followers & following count
-- 📝 **Posts** — Create, view and delete posts in a live feed
-- ❤️ **Likes** — Like and unlike posts with instant toggle
-- 💬 **Comments** — Comment on posts and delete your own comments
-- 👥 **Follow System** — Follow and unfollow other users
-- 🔔 **Notifications** — Get notified on likes, comments and follows
-- 📩 **Direct Messages** — Private conversations between users
-- 🔍 **Search** — Search for users by username
-- 📱 **Responsive UI** — Clean modern design using Bootstrap 5
+-   Posts — Create, view and delete posts in a live feed
+-   Likes — Like and unlike posts with instant toggle
+-   Comments — Comment on posts and delete your own comments
+-   Follow System — Follow and unfollow other users
+-   Notifications — Get notified on likes, comments and follows
+-   Direct Messages — Private conversations between users
+-   Search — Search for users by username
+-   Responsive UI — Clean modern design using Bootstrap 5
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -49,13 +49,13 @@ real-time notifications, and direct messaging.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 <img width="901" height="483" alt="image" src="https://github.com/user-attachments/assets/5b28c45a-cfde-4a9c-960f-0b3cc47d67ce" />
 
 
 ---
 
-## ⚙️ Local Setup
+##  Local Setup
 
 Follow these steps to run the project locally:
 
@@ -107,7 +107,7 @@ http://127.0.0.1:8000
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
 - [ ] Real-time chat using Django Channels & WebSockets
 - [ ] Image posts support
@@ -118,7 +118,7 @@ http://127.0.0.1:8000
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 **Your Name**
 - GitHub: [@telavane4532](https://github.com/telavane4532)
